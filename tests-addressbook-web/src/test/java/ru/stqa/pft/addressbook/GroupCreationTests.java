@@ -9,7 +9,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class GroupCreationTests {
     private WebDriver wd;
   // private FirefoxDriver wd;
-  // private JavascriptExecutor js;
 
   @BeforeMethod(alwaysRun = true)
   public void setUp() throws Exception {
@@ -17,7 +16,6 @@ public class GroupCreationTests {
     wd = new ChromeDriver();
     // wd = new FirefoxDriver();
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    //js = (JavascriptExecutor) wb;
     wd.get("http://localhost/addressbook/addressbook/");
     login("admin", "secret");
   }
