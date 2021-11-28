@@ -30,7 +30,7 @@ public class ContactCreationTests {
   @Test
   public void testContactCreation() throws Exception {
     initContactCreation();
-    fillContactData(new ContactData("Alex", "Schneider", "Microsoft", "0123456789", "10", "September", "1990", "alex@test.com", "Friends"));
+    fillContactData(new ContactData("Alex", "Schneider", "Microsoft", "0123456789", "10", "September", "1990", "alex@test.com", "Z_Friends"));
     submitContactForm();
     returnToHomepage();
     logout();
