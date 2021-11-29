@@ -20,4 +20,8 @@ public class SessionHelper {
       wd.findElement(By.name("pass")).sendKeys(password);
       wd.findElement(By.xpath("//input[@value='Login']")).click();
    }
+
+   public void logout() {
+      wd.findElement(By.linkText("Logout")).click();
+   }
 }

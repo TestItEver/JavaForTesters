@@ -9,9 +9,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-
    public WebDriver wd;
 
+   private ContactHelper contactHelper;
    private NavigationHelper navigationHelper;
    private GroupHelper groupHelper;
    private SessionHelper sessionHelper;
@@ -22,15 +22,10 @@ public class ApplicationManager {
       wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
       wd.get("http://localhost/addressbook/addressbook/");
       groupHelper = new GroupHelper(wd);
+      contactHelper = new ContactHelper(wd);
       navigationHelper = new NavigationHelper(wd);
       sessionHelper = new SessionHelper(wd);
       sessionHelper.login("admin", "secret");
-   }
-
-
-
-   public void logout() {
-     wd.findElement(By.linkText("Logout")).click();
    }
 
    public void stop() {
@@ -63,8 +58,11 @@ public class ApplicationManager {
       return navigationHelper;
    }
 
-   public SessionHelper getSessionHelperHelper() {
+   public SessionHelper getSessionHelper() {
       return sessionHelper;
    }
 
+   public ContactHelper getContactHelper() {
+      return contactHelper;
+   }
 }
