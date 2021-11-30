@@ -34,16 +34,22 @@ public class ContactHelper extends HelperBase {
       //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
    }
 
-   public void initContactModification() {
-      click(By.xpath("//img[@alt='Edit']"));
+   public void initContactModification(int rowIndex) {
+      String xpath = "(//img[@alt='Edit'])[" + rowIndex + "]";
+      //click(By.xpath("(//img[@alt='Edit'])[2]"));
+      click(By.xpath(xpath));
    }
 
    public void selectContact() {
-      click(By.id("1"));
+      click(By.name("selected[]")); //first contact selected
    }
 
    public void submitContactModification() {
       click(By.name("update"));
    }
 
+   public void deleteContact() {
+      click(By.xpath("//input[@value='Delete']"));
+      wd.switchTo().alert().accept();
+   }
 }
