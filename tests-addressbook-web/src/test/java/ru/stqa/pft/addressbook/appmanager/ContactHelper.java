@@ -33,4 +33,17 @@ public class ContactHelper extends HelperBase {
       //click(By.name("new_group"));
       //new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
    }
+
+   public void initContactModification() {
+      click(By.xpath("//img[@alt='Edit']"));
+   }
+
+   public void selectContact() {
+      click(By.id("1"));
+   }
+
+   public void submitContactModification() {
+      click(By.name("update"));
+   }
+
 }
