@@ -38,6 +38,14 @@ public class ContactData {
       this.group = group;
    }
 
+   public void setId(int id) {
+      this.id = id;
+   }
+
+   public int getId() {
+      return id;
+   }
+
    public String getFirstname() {
       return firstname;
    }

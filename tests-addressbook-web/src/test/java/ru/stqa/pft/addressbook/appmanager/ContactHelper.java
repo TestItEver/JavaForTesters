@@ -92,12 +92,10 @@ public class ContactHelper extends HelperBase {
          String firstname = cells.get(2).getText();
          String email = cells.get(4).getText();
          String mobile = cells.get(5).getText();
-         System.out.println("ID: " + id);
 
          ContactData contact = new ContactData(id, firstname, lastname, null, mobile, null, null, null, email, null);
          contacts.add(contact);
       }
-
       return contacts;
    }
 }
