@@ -26,7 +26,7 @@ public class ContactModificationTests extends TestBase{
       List<ContactData> after = app.getContactHelper().getContactList();
       Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification
 
-      //Compare elements of two lists: before and after deletion
+      // Compare elements of two lists: before and after deletion
       before.remove(before.size() - 1);
       before.add(data);
       Comparator<? super ContactData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
