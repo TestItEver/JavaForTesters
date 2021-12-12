@@ -1,11 +1,12 @@
 package ru.stqa.pft.addressbook.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -55,8 +56,9 @@ public class ContactHelper extends HelperBase {
       click(By.xpath(xpath));
    }
 
-   public void selectContact() {
-      click(By.name("selected[]")); //first contact selected
+   public void selectContact(int index) {
+      wd.findElements(By.name("selected[]")).get(index).click();
+      //click(By.name("selected[]")); //first contact selected
    }
 
    public void submitContactModification() {
@@ -77,5 +79,25 @@ public class ContactHelper extends HelperBase {
 
    public boolean isThereAContact() {
       return isElementPresent(By.name("selected[]"));
+   }
+
+   public List<ContactData> getContactList() {
+      List<ContactData> contacts = new ArrayList<ContactData>();
+      List<WebElement> rows = wd.findElements(By.tagName("tr"));
+
+      for (int i =1; i < rows.size(); i++) {
+         List<WebElement> cells = rows.get(i).findElements(By.tagName("td"));
+         int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
+         String lastname = cells.get(1).getText();
+         String firstname = cells.get(2).getText();
+         String email = cells.get(4).getText();
+         String mobile = cells.get(5).getText();
+         System.out.println("ID: " + id);
+
+         ContactData contact = new ContactData(id, firstname, lastname, null, mobile, null, null, null, email, null);
+         contacts.add(contact);
+      }
+
+      return contacts;
    }
 }
