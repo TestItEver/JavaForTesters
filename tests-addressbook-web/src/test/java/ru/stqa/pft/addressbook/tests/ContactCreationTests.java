@@ -8,16 +8,18 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase{
 
-  @Test
+  @Test(enabled = true)
   public void testContactCreation() throws Exception {
-    List<ContactData> before = app.getContactHelper().getContactList();
+    app.goTo().homePage(); // precondition
+
+    List<ContactData> before = app.contact().list();
     ContactData data = new ContactData("Alex", "Schneider", "Microsoft", "0123456789", "10", "September", "1990", "alex@test.com", "Test1");
-    app.getContactHelper().createContact(data);
+    app.contact().create(data);
 
-    List<ContactData> after = app.getContactHelper().getContactList();
-    Assert.assertEquals(after.size(), before.size() + 1); // compare size of two lists: before and after modification
+    List<ContactData> after = app.contact().list();
+    Assert.assertEquals(after.size(), before.size() + 1); // compare size of two lists: before and after creation
 
-    // Compare elements of two lists: before and after deletion
+    // Compare elements of two lists: before and after creation
     Comparator<? super ContactData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
     int max = after.stream().max(byId).get().getId(); // searching after max of id in the "after list"
     data.setId(max); // set correct id of the created contact
@@ -25,9 +27,6 @@ public class ContactCreationTests extends TestBase{
     before.sort(byId);
     after.sort(byId);
     Assert.assertEquals(after, before);
-
-    // Logout
-    app.getSessionHelper().logout();
   }
 
 }

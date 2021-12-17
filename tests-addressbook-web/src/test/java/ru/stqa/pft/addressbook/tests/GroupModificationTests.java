@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import java.util.Comparator;
@@ -9,29 +10,28 @@ import java.util.List;
 
 public class GroupModificationTests extends TestBase{
 
+   @BeforeMethod
+   public void ensurePreconditions() {
+      app.goTo().groupPage();
+      if (app.group().list().size() == 0){
+         app.group().create(new GroupData("Test1", null, null));
+      }
+   }
+
    @Test
    public void testGroupModification() {
 
-      app.getNavigationHelper().gotoGroupPage();
-      if (!app.getGroupHelper().isThereAGroup()){
-         app.getGroupHelper().createGroup(new GroupData("Test1", null, null));
-      }
-      // int before = app.getGroupHelper().getGroupCount();
-      List<GroupData> before = app.getGroupHelper().getGroupList();
+      List<GroupData> before = app.group().list();
+      int index = before.size() - 1;
+      GroupData data = new GroupData(before.get(index).getId(),  "Test2", "Simply Test2", "xxx");
 
-      app.getGroupHelper().selectGroup(before.size() - 1);
-      app.getGroupHelper().initGroupModification();
-      GroupData data = new GroupData(before.get(before.size() - 1).getId(),  "Test2", "Simply Test2", "xxx");
-      app.getGroupHelper().fillGroupForm(data);
-      app.getGroupHelper().submitGroupModification();
-      app.getGroupHelper().returnToGroupPage();
+      app.group().modify(index, data);
 
-      // int after = app.getGroupHelper().getGroupCount();
-      List<GroupData> after = app.getGroupHelper().getGroupList();
+      List<GroupData> after = app.group().list();
       Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification
 
       //Compare elements of two lists: before and after modification: HashSet
-      before.remove(before.size() - 1);
+      before.remove(index);
       before.add(data);
       Assert.assertEquals(new HashSet<Object>(after) , new HashSet<Object>(before));
 

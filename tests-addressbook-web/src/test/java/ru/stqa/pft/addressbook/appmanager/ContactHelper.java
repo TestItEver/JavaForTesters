@@ -51,7 +51,7 @@ public class ContactHelper extends HelperBase {
    }
 
    public void initContactModification(int rowIndex) {
-      String xpath = "(//img[@alt='Edit'])[" + rowIndex + "]";
+      String xpath = "(//img[@alt='Edit'])[" + (rowIndex + 1) + "]";
       //click(By.xpath("(//img[@alt='Edit'])[2]"));
       click(By.xpath(xpath));
    }
@@ -70,23 +70,36 @@ public class ContactHelper extends HelperBase {
       wd.switchTo().alert().accept();
    }
 
-   public void createContact(ContactData contact) {
+   public void create(ContactData contact) {
       initContactCreation();
       fillContactData(contact, true);
       submitContactForm();
       returnToHomepage();
    }
 
+   public void modify(int index, ContactData data) {
+      initContactModification(index); //last contact will be modified
+      fillContactData(data, false);
+      submitContactModification();
+   }
+
+   public void delete(int index) {
+      selectContact(index);
+      deleteContact();
+   }
+
    public boolean isThereAContact() {
       return isElementPresent(By.name("selected[]"));
    }
 
-   public List<ContactData> getContactList() {
+   public List<ContactData> list() {
       List<ContactData> contacts = new ArrayList<ContactData>();
-      List<WebElement> rows = wd.findElements(By.tagName("tr"));
+      List<WebElement> rows = wd.findElements(By.tagName("tr")); // subject line is included
+      // List<WebElement> rows = wd.findElements(By.xpath("//tr[@name = 'entry']")); --> subject line is not included
 
-      for (int i =1; i < rows.size(); i++) {
+      for (int i = 1; i < rows.size(); i++) {
          List<WebElement> cells = rows.get(i).findElements(By.tagName("td"));
+         // List<WebElement> cells = rows.get(i).findElements(By.xpath(".//td"));
          int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
          String lastname = cells.get(1).getText();
          String firstname = cells.get(2).getText();
