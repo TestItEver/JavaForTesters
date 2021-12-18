@@ -17,7 +17,7 @@ public class ContactDeletionTests extends TestBase{
       }
    }
 
-   @Test(enabled = true)
+   @Test(enabled = false)
    public void testContactDeletion() {
       //contact in the row = 1 will be deleted
 

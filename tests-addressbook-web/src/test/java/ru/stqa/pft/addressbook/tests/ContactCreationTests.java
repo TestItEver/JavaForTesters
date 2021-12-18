@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ContactCreationTests extends TestBase{
 
-  @Test(enabled = true)
+  @Test(enabled = false)
   public void testContactCreation() throws Exception {
     app.goTo().homePage(); // precondition
 

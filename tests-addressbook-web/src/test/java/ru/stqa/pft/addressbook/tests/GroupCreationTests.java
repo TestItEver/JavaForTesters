@@ -13,7 +13,7 @@ public class GroupCreationTests extends TestBase {
     app.goTo().groupPage(); // precondition
 
     List<GroupData> before = app.group().list();
-    GroupData group = new GroupData("Test4", null, null);
+    GroupData group = new GroupData().withName("Test4");
     app.group().create(group);
 
     List<GroupData> after = app.group().list();
@@ -21,7 +21,7 @@ public class GroupCreationTests extends TestBase {
 
     // compare elements of two lists: before and after creation
     int max = after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId();
-    group.setId(max);
+    group.withId(max);
     before.add(group);
     // first way (important: equals() and hash() should include id!):
     // Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
