@@ -6,7 +6,9 @@ import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -51,14 +53,22 @@ public class ContactHelper extends HelperBase {
    }
 
    public void initContactModification(int rowIndex) {
-      String xpath = "(//img[@alt='Edit'])[" + (rowIndex + 1) + "]";
-      //click(By.xpath("(//img[@alt='Edit'])[2]"));
+      String xpath = "(//img[@alt='Edit'])[" + (rowIndex + 1) + "]";   // click(By.xpath("(//img[@alt='Edit'])[2]"));
       click(By.xpath(xpath));
+   }
+
+   private void initContactModificationById(int id) {
+      // wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
+      wd.findElement(By.xpath("//a[@href='edit.php?id=" + id + "']")).click();
    }
 
    public void selectContact(int index) {
       wd.findElements(By.name("selected[]")).get(index).click();
-      //click(By.name("selected[]")); //first contact selected
+   }
+
+   private void selectContactById(int id) {
+      wd.findElement(By.cssSelector("input[id='" + id + "']")).click();
+      //wd.findElement(By.xpath("//input[@id = '" + id + "']")).click();
    }
 
    public void submitContactModification() {
@@ -83,13 +93,47 @@ public class ContactHelper extends HelperBase {
       submitContactModification();
    }
 
+   public void modify(ContactData data) {
+      initContactModificationById(data.getId());
+      fillContactData(data, false);
+      submitContactModification();
+   }
+
    public void delete(int index) {
       selectContact(index);
       deleteContact();
    }
 
+   public void delete(ContactData deletedContact) {
+      selectContactById(deletedContact.getId());
+      deleteContact();
+   }
+
    public boolean isThereAContact() {
       return isElementPresent(By.name("selected[]"));
+   }
+
+   public Set<ContactData> all() {
+      Set<ContactData> contacts = new HashSet<ContactData>();
+      List<WebElement> rows = wd.findElements(By.tagName("tr")); // subject line is included
+
+      for (int i = 1; i < rows.size(); i++) {
+         List<WebElement> cells = rows.get(i).findElements(By.tagName("td"));
+         int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
+         String lastname = cells.get(1).getText();
+         String firstname = cells.get(2).getText();
+         String email = cells.get(4).getText();
+         String mobile = cells.get(5).getText();
+
+         ContactData contact = new ContactData()
+                 .withId(id)
+                 .withFirstname(firstname)
+                 .withLastname(lastname)
+                 .withMobile(mobile)
+                 .withEmail(email);
+         contacts.add(contact);
+      }
+      return contacts;
    }
 
    public List<ContactData> list() {
@@ -117,4 +161,5 @@ public class ContactHelper extends HelperBase {
       }
       return contacts;
    }
+
 }

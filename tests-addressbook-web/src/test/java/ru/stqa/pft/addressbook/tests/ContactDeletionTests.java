@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class ContactDeletionTests extends TestBase{
 
@@ -28,6 +29,24 @@ public class ContactDeletionTests extends TestBase{
 
    @Test(enabled = true)
    public void testContactDeletion() {
+
+      Set<ContactData> before = app.contact().all();
+      ContactData deletedContact = before.iterator().next();    // get random contact from set before for deletion
+      app.contact().delete(deletedContact);                     // delete contact from the page
+      app.goTo().homePage();
+
+      Set<ContactData> after = app.contact().all();
+      Assert.assertEquals(after.size(), before.size() - 1); // compare size of two sets: before and after
+
+      //Compare elements of two lists: before and after deletion
+      before.remove(deletedContact);
+      Assert.assertEquals(after, before);
+   }
+
+   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
+
+   @Test(enabled = false)
+   public void testContactDeletionWithLists() {
       //contact in the row = 1 will be deleted
 
       List<ContactData> before = app.contact().list();
