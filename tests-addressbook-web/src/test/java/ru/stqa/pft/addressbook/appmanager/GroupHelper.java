@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
-import ru.stqa.pft.addressbook.model.MySetWrapper;
+import ru.stqa.pft.addressbook.model.MySet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +120,17 @@ public class GroupHelper extends HelperBase {
       return groups;
    }
 
+   public MySet mySet() {
+      MySet groups = new MySet();
+      List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+      for (WebElement element : elements){
+         String name = element.getText();
+         int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+         groups.add(new GroupData().withId(id).withName(name));
+      }
+      return groups;
+   }
+
    /* Predecessor for public Groups all()
    public Set<GroupData> all() {
       Set<GroupData> groupsSet = new HashSet<>();
@@ -132,15 +143,4 @@ public class GroupHelper extends HelperBase {
       return groupsSet;
    }
     */
-
-   public MySetWrapper mySet() {
-      MySetWrapper groups = new MySetWrapper();
-      List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
-      for (WebElement element : elements){
-         String name = element.getText();
-         int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-         groups.add(new GroupData().withId(id).withName(name));
-      }
-      return groups;
-   }
 }

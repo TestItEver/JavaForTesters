@@ -11,7 +11,7 @@ public class Groups extends ForwardingSet<GroupData> {
    private Set<GroupData> delegate;
 
    public Groups(Groups groups) {
-      this.delegate = new HashSet<GroupData>(groups.delegate);   // create copy from group
+      this.delegate = new HashSet<GroupData>(groups.delegate);   // create copy from group set
    }
 
    public Groups() {
@@ -37,9 +37,9 @@ public class Groups extends ForwardingSet<GroupData> {
 
    public Groups withModified(int id, GroupData group) {
       Groups groups = new Groups(this);
-      for (GroupData s : groups) {
-         if (s.getId() == id) {
-            groups.remove(s);
+      for (GroupData g : groups) {
+         if (g.getId() == id) {
+            groups.remove(g);
             groups.add(group);
             break;
          }

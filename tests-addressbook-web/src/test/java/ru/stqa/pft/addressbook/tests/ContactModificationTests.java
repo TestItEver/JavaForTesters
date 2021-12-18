@@ -4,9 +4,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactModificationTests extends TestBase{
 
@@ -30,9 +35,9 @@ public class ContactModificationTests extends TestBase{
    @Test(enabled = true)
    public void testContactModification() {
 
-      Set<ContactData> before = app.contact().all();
-      ContactData modifiedContact = before.iterator().next();
+      Contacts before = app.contact().all();
 
+      ContactData modifiedContact = before.iterator().next();
       ContactData data = new ContactData()
               .withId(modifiedContact.getId())
               .withFirstname("Maria")
@@ -43,16 +48,14 @@ public class ContactModificationTests extends TestBase{
               .withBmonth("January")
               .withByear("1987")
               .withEmail("maria@test.com");
-
       app.contact().modify(data);
       app.goTo().homePage();
 
-      Set<ContactData> after = app.contact().all();
-      Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification
+      Contacts after = app.contact().all();
 
-      before.remove(modifiedContact);
-      before.add(data);
-      Assert.assertEquals(after, before);     // Compare elements of two lists: before and after modification
+      assertThat(after.size(), equalTo(before.size())); // compare size of two lists: before and after modification
+      assertThat(after, equalTo(before.without(modifiedContact).withAdded(data)));      // compare two sets: before and after modification
+      assertThat(after, equalTo(before.withModified(modifiedContact.getId(), data)));   // with extra method
    }
 
    // *********************************** OTHER WAY FOR THE SAME THING *************************************************

@@ -3,9 +3,14 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
+
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.*;
+
 
 public class ContactCreationTests extends TestBase{
 
@@ -13,8 +18,8 @@ public class ContactCreationTests extends TestBase{
   public void testContactCreation() throws Exception {
     app.goTo().homePage(); // precondition
 
-    Set<ContactData> before = app.contact().all();
-    ContactData data = new ContactData()
+    Contacts before = app.contact().all();
+    ContactData newContact = new ContactData()
             .withFirstname("Alex")
             .withLastname("Schneider")
             .withCompany("Microsoft")
@@ -24,16 +29,14 @@ public class ContactCreationTests extends TestBase{
             .withByear("1990")
             .withEmail("alex@test.com")
             .withGroup("Test1");
-    app.contact().create(data);
+    app.contact().create(newContact);    // add new contact on the page
 
-    Set<ContactData> after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size() + 1); // compare size of two sets: before and after creation
+    Contacts after = app.contact().all();
 
-    // Compare elements of two sets: before and after creation
-    int max = after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt();
-    data.withId(max); // set correct id of the created contact
-    before.add(data); // add new data to the "before list"
-    Assert.assertEquals(after, before);
+    assertThat(after.size(), equalTo(before.size() + 1));
+    assertThat(after, equalTo
+            (before.withAdded(newContact.withId
+                    (after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt()))));
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
