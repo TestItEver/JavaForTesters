@@ -13,11 +13,20 @@ public class ContactDeletionTests extends TestBase{
    public void ensurePreconditions() {
       app.goTo().homePage();
       if (app.contact().list().size() == 0) {
-         app.contact().create(new ContactData("Alex", "Schneider", "Microsoft", "0123456789", "10", "September", "1990", "alex@test.com", "Test1"));
+         app.contact().create(new ContactData()
+                 .withFirstname("Alex")
+                 .withLastname("Schneider")
+                 .withCompany("Microsoft")
+                 .withMobile("0123456789")
+                 .withBday("10")
+                 .withBmonth("September")
+                 .withByear("1990")
+                 .withEmail("alex@test.com")
+                 .withGroup("Test1"));
       }
    }
 
-   @Test(enabled = false)
+   @Test(enabled = true)
    public void testContactDeletion() {
       //contact in the row = 1 will be deleted
 

@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class GroupCreationTests extends TestBase {
 
-  @Test
+  @Test(enabled = false)
   public void testGroupCreation() throws Exception {
     app.goTo().groupPage(); // precondition
 
@@ -28,7 +28,6 @@ public class GroupCreationTests extends TestBase {
     ++ stream of GroupData(s) will be converted into stream of Integers due to the anonymous function (o) -> o.getId() ++
     ++ then maximum of the Integers in stream will be calculated and returned as Integer ++
     int max = after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt();
-    group.withId(max);
      */
 
     assertThat(after, equalTo(                                      // compare elements of two sets: before and after creation (hamcrest)

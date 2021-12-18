@@ -1,45 +1,66 @@
 package ru.stqa.pft.addressbook.model;
 
 public class ContactData {
-   private int id;
-   private final String firstname;
-   private final String lastname;
-   private final String company;
-   private final String mobile;
-   private final String bday;
-   private final String bmonth;
-   private final String byear;
-   private final String email;
-   private final String group;
+   private int id = Integer.MAX_VALUE;
+   private String firstname;
+   private String lastname;
+   private String company;
+   private String mobile;
+   private String bday;
+   private String bmonth;
+   private String byear;
+   private String email;
+   private String group;
 
-   public ContactData(String firstname, String lastname, String company, String mobile, String bday, String bmonth, String byear, String email, String group) {
-      this.id = 0;
-      this.firstname = firstname;
-      this.lastname = lastname;
-      this.company = company;
-      this.mobile = mobile;
-      this.bday = bday;
-      this.bmonth = bmonth;
-      this.byear = byear;
-      this.email = email;
-      this.group = group;
+
+   public ContactData withId(int id) {
+      this.id = id;
+      return this;
    }
 
-   public ContactData(int id, String firstname, String lastname, String company, String mobile, String bday, String bmonth, String byear, String email, String group) {
-      this.id = id;
+   public ContactData withFirstname(String firstname) {
       this.firstname = firstname;
-      this.lastname = lastname;
-      this.company = company;
-      this.mobile = mobile;
-      this.bday = bday;
-      this.bmonth = bmonth;
-      this.byear = byear;
-      this.email = email;
-      this.group = group;
+      return this;
    }
 
-   public void setId(int id) {
-      this.id = id;
+   public ContactData withLastname(String lastname) {
+      this.lastname = lastname;
+      return this;
+   }
+
+   public ContactData withCompany(String company) {
+      this.company = company;
+      return this;
+   }
+
+   public ContactData withMobile(String mobile) {
+      this.mobile = mobile;
+      return this;
+   }
+
+   public ContactData withBday(String bday) {
+      this.bday = bday;
+      return this;
+   }
+
+   public ContactData withBmonth(String bmonth) {
+      this.bmonth = bmonth;
+      return this;
+   }
+
+   public ContactData withByear(String byear) {
+      this.byear = byear;
+      return this;
+   }
+
+   public ContactData withEmail(String email) {
+      this.email = email;
+      return this;
+   }
+
+   public ContactData withGroup(String group) {
+      this.group = group;
+      return this;
    }
 
    public int getId() {
@@ -91,6 +112,7 @@ public class ContactData {
               '}';
    }
 
+
    @Override
    public boolean equals(Object o) {
       if (this == o) return true;
@@ -98,13 +120,15 @@ public class ContactData {
 
       ContactData that = (ContactData) o;
 
+      if (id != that.id) return false;
       if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
       return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
    }
 
    @Override
    public int hashCode() {
-      int result = firstname != null ? firstname.hashCode() : 0;
+      int result = id;
+      result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
       result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
       return result;
    }
