@@ -13,7 +13,7 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class GroupCreationTests extends TestBase {
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testGroupCreation() throws Exception {
     app.goTo().groupPage(); // precondition
 
