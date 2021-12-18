@@ -4,10 +4,13 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
+
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupModificationTests extends TestBase{
 
@@ -22,22 +25,20 @@ public class GroupModificationTests extends TestBase{
    @Test(enabled = true)
    public void testGroupModification() {
 
-      Set<GroupData> before = app.group().all();
+      Groups before = app.group().all();
       GroupData modifiedGroup = before.iterator().next();   // get random group from set before for modification
       GroupData data = new GroupData().withId(modifiedGroup.getId()).withName("TestModi").withHeader("Simply Test2").withFooter("xxx");
 
       app.group().modify(data);    // modify selected group on the page
-      Set<GroupData> after = app.group().all();
-      Assert.assertEquals(after.size(), before.size()); // compare size of two sets: before and after modification
+      Groups after = app.group().all();
 
-      before.remove(modifiedGroup);
-      before.add(data);
-
-      Assert.assertEquals(after, before);   // compare two sets: before and after modification
+      assertThat(after.size(), equalTo(before.size()));   // compare size of two sets: before and after modification (hamcrest)
+      assertThat(after, equalTo(before.without(modifiedGroup).withAdded(data)));      // compare two sets: before and after modification
+      assertThat(after, equalTo(before.withModified(modifiedGroup.getId(), data)));   // with extra method
    }
 
    // *********************************** OTHER WAY FOR THE SAME THING ***************************************************
-   
+
    @Test(enabled = false)
    public void testGroupModificationWithLists() {
 
@@ -47,7 +48,7 @@ public class GroupModificationTests extends TestBase{
       app.group().modify(index, data);
 
       List<GroupData> after = app.group().list();
-      Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification
+      Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification (testng)
 
       before.remove(index);
       before.add(data);
@@ -55,7 +56,7 @@ public class GroupModificationTests extends TestBase{
       Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());
       before.sort(byId);
       after.sort(byId);
-      Assert.assertEquals(after, before);  //Compare two lists after sort
+      Assert.assertEquals(after, before);  //Compare two lists after sort (testng)
    }
 
 }

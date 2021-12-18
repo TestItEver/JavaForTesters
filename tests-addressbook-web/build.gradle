@@ -14,5 +14,5 @@ dependencies {
     implementation 'org.testng:testng:7.4.0'
     implementation 'org.seleniumhq.selenium:selenium-java:4.1.0'
     implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    implementation 'org.slf4j:slf4j-parent:2.0.0-alpha5'
+    implementation 'org.hamcrest:hamcrest:2.2'
 }
