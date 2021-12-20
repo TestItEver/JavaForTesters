@@ -187,9 +187,9 @@ public class ContactHelper extends HelperBase {
       String homePhone = wd.findElement(By.name(("home"))).getAttribute("value");
       String mobilePhone = wd.findElement(By.name(("mobile"))).getAttribute("value");
       String workPhone = wd.findElement(By.name(("work"))).getAttribute("value");
-      String email = wd.findElement(By.name(("work"))).getAttribute("value");
-      String email2 = wd.findElement(By.name(("work"))).getAttribute("value");
-      String email3 = wd.findElement(By.name(("work"))).getAttribute("value");
+      String email = wd.findElement(By.name(("email"))).getAttribute("value");
+      String email2 = wd.findElement(By.name(("email2"))).getAttribute("value");
+      String email3 = wd.findElement(By.name(("email3"))).getAttribute("value");
 
       contact.withFirstname(firstname).withLastname(lastname).withAddress(address)
               .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone)

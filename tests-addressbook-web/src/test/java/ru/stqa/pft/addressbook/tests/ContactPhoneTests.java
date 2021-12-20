@@ -44,6 +44,11 @@ public class ContactPhoneTests extends TestBase {
               .map(ContactPhoneTests :: cleaned)
               .collect(Collectors.joining("\n"));
    }
+   /* 1. Convert ArrayList into stream
+      2. Filter all Strings = "" out
+      3. Apply to all remaining Strings the function cleaned
+      4. Collect all Strings and join into one String (put as delimiter \n)
+    */
 
    public static String cleaned(String phone) {
       return phone.replaceAll("\\s", "").replaceAll("[-()]", "");
