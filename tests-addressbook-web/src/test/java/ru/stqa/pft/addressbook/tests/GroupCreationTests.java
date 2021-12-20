@@ -20,19 +20,16 @@ public class GroupCreationTests extends TestBase {
     Groups before = app.group().all();
     GroupData group = new GroupData().withName("TestCreation");
     app.group().create(group);
+    assertThat(app.group().count(), equalTo(before.size() + 1));  // compare size of two sets: before and after creation (hamcrest)
+
     Groups after = app.group().all();
-
-    assertThat(after.size(), equalTo(before.size() + 1));  // compare size of two sets: before and after creation (hamcrest)
-
+    assertThat(after, equalTo(                                           // compare elements of two sets: before and after creation (hamcrest)
+            before.withAdded(group.withId(after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt()))));
     /*
     ++ stream of GroupData(s) will be converted into stream of Integers due to the anonymous function (o) -> o.getId() ++
     ++ then maximum of the Integers in stream will be calculated and returned as Integer ++
     int max = after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt();
      */
-
-    assertThat(after, equalTo(                                      // compare elements of two sets: before and after creation (hamcrest)
-            before.withAdded(group.withId(after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt()))));
-
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
@@ -44,9 +41,9 @@ public class GroupCreationTests extends TestBase {
     List<GroupData> before = app.group().list();
     GroupData group = new GroupData().withName("Test4");
     app.group().create(group);
-    List<GroupData> after = app.group().list();
-    Assert.assertEquals(after.size(), before.size() + 1);     // compare size of two lists: before and after creation (testng)
+    Assert.assertEquals(app.group().count(), before.size() + 1);     // compare size of two lists: before and after creation (testng)
 
+    List<GroupData> after = app.group().list();
     // find out the id of created group --> maximum of all id's
     int max = after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId();
     group.withId(max);

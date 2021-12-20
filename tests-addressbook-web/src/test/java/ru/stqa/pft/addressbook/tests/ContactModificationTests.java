@@ -8,7 +8,6 @@ import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +22,7 @@ public class ContactModificationTests extends TestBase{
                  .withFirstname("Alex")
                  .withLastname("Schneider")
                  .withCompany("Microsoft")
-                 .withMobile("0123456789")
+                 .withMobilePhone("0123456789")
                  .withBday("10")
                  .withBmonth("September")
                  .withByear("1990")
@@ -43,17 +42,17 @@ public class ContactModificationTests extends TestBase{
               .withFirstname("Maria")
               .withLastname("Ivanova")
               .withCompany("Apple")
-              .withMobile("0987654321")
+              .withMobilePhone("0987654321")
               .withBday("25")
               .withBmonth("January")
               .withByear("1987")
               .withEmail("maria@test.com");
       app.contact().modify(data);
       app.goTo().homePage();
+      assertThat(app.contact().count(), equalTo(before.size())); // compare size of two lists: before and after modification
 
       Contacts after = app.contact().all();
 
-      assertThat(after.size(), equalTo(before.size())); // compare size of two lists: before and after modification
       assertThat(after, equalTo(before.without(modifiedContact).withAdded(data)));      // compare two sets: before and after modification
       assertThat(after, equalTo(before.withModified(modifiedContact.getId(), data)));   // with extra method
    }
@@ -70,7 +69,7 @@ public class ContactModificationTests extends TestBase{
               .withFirstname("Maria")
               .withLastname("Ivanova")
               .withCompany("Apple")
-              .withMobile("0987654321")
+              .withMobilePhone("0987654321")
               .withBday("25")
               .withBmonth("January")
               .withByear("1987")
@@ -78,9 +77,9 @@ public class ContactModificationTests extends TestBase{
 
       app.contact().modify(index, data);
       app.goTo().homePage();
+      Assert.assertEquals(app.contact().count(), before.size()); // compare size of two lists: before and after modification
 
       List<ContactData> after = app.contact().list();
-      Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification
 
       // Compare elements of two lists: before and after modification
       before.remove(index);

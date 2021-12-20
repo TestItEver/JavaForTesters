@@ -28,10 +28,10 @@ public class GroupDeletionTests extends TestBase {
     Groups before = app.group().all();
     GroupData deletedGroup = before.iterator().next();   // get random group from set before for deletion
     app.group().delete(deletedGroup);    // delete group from the page
-    Groups after = app.group().all();
+    assertThat(app.group().count(), equalTo(before.size() - 1));   // compare size of two sets: before and after deletion (hamcrest)
 
-    assertThat(after.size(), equalTo(before.size() - 1));   // compare size of two sets: before and after deletion (hamcrest)
-    assertThat(after, equalTo(before.without(deletedGroup))); //Compare elements of two sets: before and after deletion
+    Groups after = app.group().all();
+    assertThat(after, equalTo(before.without(deletedGroup)));     // compare elements of two sets: before and after deletion
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING ***************************************************
@@ -42,8 +42,8 @@ public class GroupDeletionTests extends TestBase {
     List<GroupData> before = app.group().list();
     int index = before.size() - 1;
     app.group().delete(index);
+    Assert.assertEquals(app.group().count(), before.size() - 1);   // compare size of two lists: before and after deletion (testng)
     List<GroupData> after = app.group().list();
-    Assert.assertEquals(after.size(), before.size() - 1);    //compare size of two lists: before and after deletion (testng)
 
     before.remove(index);    // remove deleted group from the list before
     Comparator<? super GroupData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());

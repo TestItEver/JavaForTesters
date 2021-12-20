@@ -1,7 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,7 +8,6 @@ import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,7 +22,7 @@ public class ContactDeletionTests extends TestBase{
                  .withFirstname("Alex")
                  .withLastname("Schneider")
                  .withCompany("Microsoft")
-                 .withMobile("0123456789")
+                 .withMobilePhone("0123456789")
                  .withBday("10")
                  .withBmonth("September")
                  .withByear("1990")
@@ -42,10 +39,9 @@ public class ContactDeletionTests extends TestBase{
       ContactData deletedContact = before.iterator().next();    // get random contact from set before for deletion
       app.contact().delete(deletedContact);                     // delete contact from the page
       app.goTo().homePage();
+      assertThat(app.contact().count(), equalTo(before.size() - 1));
 
       Contacts after = app.contact().all();
-
-      assertThat(after.size(), equalTo(before.size() - 1));
       assertThat(after, equalTo(before.without(deletedContact)));
 
    }
@@ -60,10 +56,9 @@ public class ContactDeletionTests extends TestBase{
       int index = before.size() - 1; // last contact in the list
       app.contact().delete(index);
       app.goTo().homePage();
+      Assert.assertEquals(app.contact().count(), before.size() - 1); // compare size of two lists: before and after (testng)
 
       List<ContactData> after = app.contact().list();
-      System.out.println("after" + after + " size: " + after.size());
-      Assert.assertEquals(after.size(), before.size() - 1); // compare size of two lists: before and after (testng)
 
       before.remove(index);
       Comparator<? super ContactData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());

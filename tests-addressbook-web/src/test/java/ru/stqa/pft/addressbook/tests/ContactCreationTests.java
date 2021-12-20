@@ -23,17 +23,16 @@ public class ContactCreationTests extends TestBase{
             .withFirstname("Alex")
             .withLastname("Schneider")
             .withCompany("Microsoft")
-            .withMobile("0123456789")
+            .withMobilePhone("0123456789")
             .withBday("10")
             .withBmonth("September")
             .withByear("1990")
             .withEmail("alex@test.com")
             .withGroup("Test1");
     app.contact().create(newContact);    // add new contact on the page
+    assertThat(app.contact().count(), equalTo(before.size() + 1));
 
     Contacts after = app.contact().all();
-
-    assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo
             (before.withAdded(newContact.withId
                     (after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt()))));
@@ -50,16 +49,16 @@ public class ContactCreationTests extends TestBase{
             .withFirstname("Alex")
             .withLastname("Schneider")
             .withCompany("Microsoft")
-            .withMobile("0123456789")
+            .withMobilePhone("0123456789")
             .withBday("10")
             .withBmonth("September")
             .withByear("1990")
             .withEmail("alex@test.com")
             .withGroup("Test1");
     app.contact().create(data);
+    Assert.assertEquals(app.contact().count(), before.size() + 1); // compare size of two lists: before and after creation
 
     List<ContactData> after = app.contact().list();
-    Assert.assertEquals(after.size(), before.size() + 1); // compare size of two lists: before and after creation
 
     // Compare elements of two lists: before and after creation
     Comparator<? super ContactData> byId = (o1, o2) -> Integer.compare(o1.getId(), o2.getId());

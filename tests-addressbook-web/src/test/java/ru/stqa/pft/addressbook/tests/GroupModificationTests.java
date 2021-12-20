@@ -30,9 +30,9 @@ public class GroupModificationTests extends TestBase{
       GroupData data = new GroupData().withId(modifiedGroup.getId()).withName("TestModi").withHeader("Simply Test2").withFooter("xxx");
 
       app.group().modify(data);    // modify selected group on the page
-      Groups after = app.group().all();
+      assertThat(app.group().count(), equalTo(before.size()));   // compare size of two sets: before and after modification (hamcrest)
 
-      assertThat(after.size(), equalTo(before.size()));   // compare size of two sets: before and after modification (hamcrest)
+      Groups after = app.group().all();
       assertThat(after, equalTo(before.without(modifiedGroup).withAdded(data)));      // compare two sets: before and after modification
       assertThat(after, equalTo(before.withModified(modifiedGroup.getId(), data)));   // with extra method
    }
@@ -46,10 +46,9 @@ public class GroupModificationTests extends TestBase{
       int index = before.size() - 1;
       GroupData data = new GroupData().withId(before.get(index).getId()).withName("Test2").withHeader("Simply Test2").withFooter("xxx");
       app.group().modify(index, data);
+      Assert.assertEquals(app.group().count(), before.size()); // compare size of two lists: before and after modification (testng)
 
       List<GroupData> after = app.group().list();
-      Assert.assertEquals(after.size(), before.size()); // compare size of two lists: before and after modification (testng)
-
       before.remove(index);
       before.add(data);
 
