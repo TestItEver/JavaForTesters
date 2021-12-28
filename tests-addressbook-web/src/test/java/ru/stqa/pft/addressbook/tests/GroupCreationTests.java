@@ -1,7 +1,9 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import org.openqa.selenium.json.TypeToken;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -51,7 +53,21 @@ public class GroupCreationTests extends TestBase {
     return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validGroupsXML")
+  @DataProvider
+  public Iterator<Object[]> validGroupsJSON() throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.json"));
+    String json = "";
+    String line = reader.readLine();
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>() {}.getType()); // List<GroupData>.class
+    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+  }
+
+  @Test(dataProvider = "validGroupsJSON")
   public void testGroupCreation(GroupData group) throws Exception {
 
     app.goTo().groupPage(); // precondition

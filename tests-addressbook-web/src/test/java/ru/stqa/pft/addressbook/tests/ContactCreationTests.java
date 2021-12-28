@@ -30,8 +30,6 @@ public class ContactCreationTests extends TestBase{
 
     Contacts before = app.contact().all();
     File photo = new File ("src/test/resources/eule.png");
-    // System.out.println(photo.getAbsolutePath());
-    // System.out.println(photo.exists());
     ContactData newContact = new ContactData()
             .withFirstname("Alex")
             .withLastname("Schneider")
