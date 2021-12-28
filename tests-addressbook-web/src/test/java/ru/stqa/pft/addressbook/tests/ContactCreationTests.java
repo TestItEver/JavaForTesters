@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 
@@ -13,15 +14,28 @@ import static org.hamcrest.MatcherAssert.*;
 
 
 public class ContactCreationTests extends TestBase{
+  @Test(enabled = true)
+  public void testCurrentDir() {
+    File currentDir = new File(".");
+    System.out.println(currentDir.getAbsolutePath());
+    File photo = new File ("src/test/resources/eule.png");
+    System.out.println(photo.getAbsolutePath());
+    System.out.println(photo.exists());
+  }
+
 
   @Test(enabled = true)
   public void testContactCreation() throws Exception {
     app.goTo().homePage(); // precondition
 
     Contacts before = app.contact().all();
+    File photo = new File ("src/test/resources/eule.png");
+    // System.out.println(photo.getAbsolutePath());
+    // System.out.println(photo.exists());
     ContactData newContact = new ContactData()
             .withFirstname("Alex")
             .withLastname("Schneider")
+            .withPhoto(photo)
             .withCompany("Microsoft")
             .withMobilePhone("0123456789")
             .withBday("10")

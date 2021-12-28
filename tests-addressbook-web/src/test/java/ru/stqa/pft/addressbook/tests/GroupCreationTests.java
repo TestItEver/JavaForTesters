@@ -1,11 +1,18 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -13,12 +20,43 @@ import static org.hamcrest.MatcherAssert.*;
 
 public class GroupCreationTests extends TestBase {
 
-  @Test(enabled = true)
-  public void testGroupCreation() throws Exception {
+  @DataProvider
+  public Iterator<Object[]> validGroupsCSV() throws IOException {
+    List<Object[]> list = new ArrayList<Object[]>();
+    // list.add(new Object[]{new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
+
+    BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.csv"));
+    String line = reader.readLine();
+    while (line != null) {
+      String[] split = line.split(";");
+      list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+      line = reader.readLine();
+    }
+    return list.iterator();
+  }
+
+  @DataProvider
+  public Iterator<Object[]> validGroupsXML() throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/groups.xml"));
+    String xml = "";
+    String line = reader.readLine();
+    while (line != null) {
+      xml += line;
+      line = reader.readLine();
+    }
+    XStream xstream = new XStream();
+    xstream.processAnnotations(GroupData.class);
+    xstream.addPermission(AnyTypePermission.ANY);
+    List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
+    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+  }
+
+  @Test(dataProvider = "validGroupsXML")
+  public void testGroupCreation(GroupData group) throws Exception {
+
     app.goTo().groupPage(); // precondition
 
     Groups before = app.group().all();
-    GroupData group = new GroupData().withName("TestCreation");
     app.group().create(group);
     assertThat(app.group().count(), equalTo(before.size() + 1));  // compare size of two sets: before and after creation (hamcrest)
 
