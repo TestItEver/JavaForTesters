@@ -35,10 +35,14 @@ public class ContactHelper extends HelperBase {
       type(By.name("company"), contactData.getCompany());
       attach(By.name("photo"), contactData.getPhoto());
       type(By.name("mobile"), contactData.getMobilePhone());
-      click(By.name("bday"));
-      new Select(wd.findElement(By.name("bday"))).selectByVisibleText(contactData.getBday());
-      click(By.name("bmonth"));
-      new Select(wd.findElement(By.name("bmonth"))).selectByVisibleText(contactData.getBmonth());
+      if (contactData.getBday() != null) {
+         click(By.name("bday"));
+         new Select(wd.findElement(By.name("bday"))).selectByVisibleText(contactData.getBday());
+      }
+      if (contactData.getBmonth() != null) {
+         click(By.name("bmonth"));
+         new Select(wd.findElement(By.name("bmonth"))).selectByVisibleText(contactData.getBmonth());
+      }
       type(By.name("byear"), contactData.getByear());
       type(By.name("email"), contactData.getEmail());
 

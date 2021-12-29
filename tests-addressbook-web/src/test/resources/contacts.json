@@ -5,9 +5,6 @@
     "company": "Microsoft",
     "mobilePhone": "0123456789",
     "email": "test-email1@gmail.com",
-    "bday": "10",
-    "bmonth": "September",
-    "byear": "1990",
     "group": "test 1"
   },
   {
@@ -16,9 +13,6 @@
     "company": "Microsoft",
     "mobilePhone": "0123456789",
     "email": "test-email2@gmail.com",
-    "bday": "10",
-    "bmonth": "September",
-    "byear": "1990",
     "group": "test 1"
   },
   {
@@ -27,9 +21,6 @@
     "company": "Microsoft",
     "mobilePhone": "0123456789",
     "email": "test-email3@gmail.com",
-    "bday": "10",
-    "bmonth": "September",
-    "byear": "1990",
     "group": "test 1"
   }
 ]
