@@ -33,7 +33,7 @@ public class ContactHelper extends HelperBase {
       type(By.name("firstname"),contactData.getFirstname());
       type(By.name("lastname"), contactData.getLastname());
       type(By.name("company"), contactData.getCompany());
-      attach(By.name("photo"), contactData.getPhoto());
+      // attach(By.name("photo"), contactData.getPhoto());
       type(By.name("mobile"), contactData.getMobilePhone());
       if (contactData.getBday() != null) {
          click(By.name("bday"));
@@ -47,6 +47,7 @@ public class ContactHelper extends HelperBase {
       type(By.name("email"), contactData.getEmail());
 
       if (creation) {
+         attach(By.name("photo"), contactData.getPhoto());
          try {
             new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
          } catch (NoSuchElementException e) {
