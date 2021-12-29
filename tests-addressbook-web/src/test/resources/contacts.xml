@@ -1,0 +1,17 @@
+<list>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstname>test-firstname1</firstname>
+    <lastname>test-lastname1</lastname>
+    <email>test-email1@gmail.com</email>
+  </ru.stqa.pft.addressbook.model.ContactData>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstname>test-firstname2</firstname>
+    <lastname>test-lastname2</lastname>
+    <email>test-email2@gmail.com</email>
+  </ru.stqa.pft.addressbook.model.ContactData>
+  <ru.stqa.pft.addressbook.model.ContactData>
+    <firstname>test-firstname3</firstname>
+    <lastname>test-lastname3</lastname>
+    <email>test-email3@gmail.com</email>
+  </ru.stqa.pft.addressbook.model.ContactData>
+</list>
