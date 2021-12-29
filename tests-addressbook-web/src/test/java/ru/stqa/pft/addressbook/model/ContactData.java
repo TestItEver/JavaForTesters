@@ -12,20 +12,25 @@ public class ContactData {
    private String firstname;
    @Expose
    private String lastname;
+   @Expose
    private String company;
    private String address;
    private String homePhone;
+   @Expose
    private String mobilePhone;
    private String workPhone;
    @Expose
    private String email;
    private String email2;
    private String email3;
+   @Expose
    private String bday;
+   @Expose
    private String bmonth;
+   @Expose
    private String byear;
    private File photo;
-
+   @Expose
    private String group;
    private String allEmails;
    private String allPhones;
