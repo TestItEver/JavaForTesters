@@ -5,11 +5,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.BrowserType;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
@@ -25,15 +23,9 @@ public class ApplicationManager {
    private GroupHelper groupHelper;
    private SessionHelper sessionHelper;
    String browserType;
-   Browser browser;
 
    public ApplicationManager(String browser) {
       this.browserType = browser;
-      properties = new Properties();
-   }
-
-   public ApplicationManager(Browser browser) {
-      this.browser = browser;
       properties = new Properties();
    }
 
@@ -51,19 +43,6 @@ public class ApplicationManager {
          wd = new EdgeDriver();
       }
 
-/*
-      public void init() {
-         if (browser.equals(Browser.FIREFOX)) {
-            wd = new FirefoxDriver();
-         } else if (browser.equals(Browser.CHROME)) {
-            wd = new ChromeDriver();
-         } else if (browser.equals(Browser.IE)) {
-            wd = new InternetExplorerDriver();
-         } else if (browser.equals(Browser.EDGE)) {
-            wd = new EdgeDriver();
-         }
-
- */
       wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
       wd.get(properties.getProperty("web.baseURL"));      // "http://localhost/addressbook/";
       groupHelper = new GroupHelper(wd);

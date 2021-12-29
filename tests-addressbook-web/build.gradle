@@ -45,3 +45,15 @@ task testContacts(type: Test) {
         systemProperty 'target', "${target}"
     }
 }
+
+task testMainTable(type: Test) {
+    useTestNG() {
+        suites 'src/test/resources/testng-maintable.xml'
+    }
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
+}
