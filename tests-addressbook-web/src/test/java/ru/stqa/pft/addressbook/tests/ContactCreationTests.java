@@ -56,7 +56,7 @@ public class ContactCreationTests extends TestBase{
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validContactsXML")
+  @Test(dataProvider = "validContactsJSON")
   public void testContactCreationDataProvider(ContactData contact) throws Exception {
     app.goTo().homePage(); // precondition
 
