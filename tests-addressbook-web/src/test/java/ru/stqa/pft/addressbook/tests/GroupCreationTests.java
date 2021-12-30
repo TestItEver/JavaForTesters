@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.openqa.selenium.json.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.GroupData;
@@ -87,6 +89,7 @@ public class GroupCreationTests extends TestBase {
     ++ then maximum of the Integers in stream will be calculated and returned as Integer ++
     int max = after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt();
      */
+
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
