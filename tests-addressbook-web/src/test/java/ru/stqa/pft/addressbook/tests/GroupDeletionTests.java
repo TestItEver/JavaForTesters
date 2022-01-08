@@ -17,7 +17,7 @@ public class GroupDeletionTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     app.goTo().groupPage();
-    if (app.group().list().size() == 0){
+    if (app.db().groups().size() == 0){           // if (app.group().list().size() == 0) --List from interface
       app.group().create(new GroupData().withName("TestCreationX"));
     }
   }
@@ -25,12 +25,12 @@ public class GroupDeletionTests extends TestBase {
   @Test(enabled = true)
   public void testGroupDeletion() throws Exception {
 
-    Groups before = app.group().all();
+    Groups before = app.db().groups();           // Groups before = app.group().all(); --List from interface
     GroupData deletedGroup = before.iterator().next();   // get random group from set before for deletion
     app.group().delete(deletedGroup);    // delete group from the page
     assertThat(app.group().count(), equalTo(before.size() - 1));   // compare size of two sets: before and after deletion (hamcrest)
 
-    Groups after = app.group().all();
+    Groups after = app.db().groups();           // Groups after = app.group().all();   --List from interface
     assertThat(after, equalTo(before.without(deletedGroup)));     // compare elements of two sets: before and after deletion
   }
 

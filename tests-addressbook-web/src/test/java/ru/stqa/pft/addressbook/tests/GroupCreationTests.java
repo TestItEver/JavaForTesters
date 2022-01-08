@@ -78,11 +78,11 @@ public class GroupCreationTests extends TestBase {
 
     app.goTo().groupPage(); // precondition
 
-    Groups before = app.group().all();
+    Groups before = app.db().groups();      // Groups before = app.group().all();  --List from interface
     app.group().create(group);
     assertThat(app.group().count(), equalTo(before.size() + 1));  // compare size of two sets: before and after creation (hamcrest)
 
-    Groups after = app.group().all();
+    Groups after = app.db().groups();       // Groups after = app.group().all();   --List from interface
     assertThat(after, equalTo(                                           // compare elements of two sets: before and after creation (hamcrest)
             before.withAdded(group.withId(after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt()))));
     /*
