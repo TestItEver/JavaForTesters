@@ -17,7 +17,8 @@ public class GroupModificationTests extends TestBase{
    @BeforeMethod
    public void ensurePreconditions() {
       app.goTo().groupPage();
-      if (app.group().list().size() == 0){
+      // if (app.group().list().size() == 0){   *** List groups from interface
+      if (app.db().groups().size() == 0) {     // *** List groups from database
          app.group().create(new GroupData().withName("TestCreationX"));
       }
    }
@@ -25,14 +26,16 @@ public class GroupModificationTests extends TestBase{
    @Test(enabled = true)
    public void testGroupModification() {
 
-      Groups before = app.group().all();
+      //  Groups before = app.group().all();   *** List groups from interface
+      Groups before = app.db().groups();    // *** List groups from database
       GroupData modifiedGroup = before.iterator().next();   // get random group from set before for modification
       GroupData data = new GroupData().withId(modifiedGroup.getId()).withName("TestModi").withHeader("Simply Test2").withFooter("xxx");
 
       app.group().modify(data);    // modify selected group on the page
       assertThat(app.group().count(), equalTo(before.size()));   // compare size of two sets: before and after modification (hamcrest)
 
-      Groups after = app.group().all();
+      // Groups after = app.group().all();   *** List groups from interface
+      Groups after = app.db().groups();   // *** List groups from database
       assertThat(after, equalTo(before.without(modifiedGroup).withAdded(data)));      // compare two sets: before and after modification
       assertThat(after, equalTo(before.withModified(modifiedGroup.getId(), data)));   // with extra method
    }

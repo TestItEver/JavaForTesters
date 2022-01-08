@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.json.TypeToken;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -36,8 +37,9 @@ public class ContactCreationTests extends TestBase{
       line = reader.readLine();
     }
     XStream xstream = new XStream();
-    xstream.processAnnotations(GroupData.class);
-    xstream.addPermission(AnyTypePermission.ANY);
+    xstream.allowTypes(new Class[]{ContactData.class});
+    xstream.processAnnotations(ContactData.class);
+    // xstream.addPermission(AnyTypePermission.ANY);
     List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
@@ -56,7 +58,7 @@ public class ContactCreationTests extends TestBase{
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validContactsJSON")
+  @Test(dataProvider = "validContactsXML")
   public void testContactCreationDataProvider(ContactData contact) throws Exception {
     app.goTo().homePage(); // precondition
 
