@@ -25,22 +25,22 @@ public class GroupModificationTests extends TestBase{
 
    @Test(enabled = true)
    public void testGroupModification() {
-
-      //  Groups before = app.group().all();   *** List groups from interface
-      Groups before = app.db().groups();    // *** List groups from database
+      // Groups before = app.group().all();   -- List groups from interface
+      Groups before = app.db().groups();    // List groups from database
       GroupData modifiedGroup = before.iterator().next();   // get random group from set before for modification
       GroupData data = new GroupData().withId(modifiedGroup.getId()).withName("TestModi").withHeader("Simply Test2").withFooter("xxx");
 
       app.group().modify(data);    // modify selected group on the page
       assertThat(app.group().count(), equalTo(before.size()));   // compare size of two sets: before and after modification (hamcrest)
 
-      // Groups after = app.group().all();   *** List groups from interface
-      Groups after = app.db().groups();   // *** List groups from database
+      // Groups after = app.group().all();   -- List groups from interface
+      Groups after = app.db().groups();   // List groups from database
       assertThat(after, equalTo(before.without(modifiedGroup).withAdded(data)));      // compare two sets: before and after modification
       assertThat(after, equalTo(before.withModified(modifiedGroup.getId(), data)));   // with extra method
    }
 
    // *********************************** OTHER WAY FOR THE SAME THING ***************************************************
+   // attention: because of changes for equals-Method the tests for comparison will fail!
 
    @Test(enabled = false)
    public void testGroupModificationWithLists() {

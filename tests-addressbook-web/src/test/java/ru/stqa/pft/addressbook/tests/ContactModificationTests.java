@@ -17,7 +17,7 @@ public class ContactModificationTests extends TestBase{
    @BeforeMethod
    public void ensurePreconditions() {
       app.goTo().homePage();
-      if (app.contact().list().size() == 0) {
+      if (app.db().contacts().size() == 0) {       // if (app.contact().list().size() == 0) -- List from interface
          app.contact().create(new ContactData()
                  .withFirstname("Alex")
                  .withLastname("Schneider")
@@ -34,7 +34,7 @@ public class ContactModificationTests extends TestBase{
    @Test(enabled = true)
    public void testContactModification() {
 
-      Contacts before = app.contact().all();
+      Contacts before = app.db().contacts();      // Contacts before = app.contact().all();  -- List from interface
 
       ContactData modifiedContact = before.iterator().next();
       ContactData data = new ContactData()
@@ -51,13 +51,14 @@ public class ContactModificationTests extends TestBase{
       app.goTo().homePage();
       assertThat(app.contact().count(), equalTo(before.size())); // compare size of two lists: before and after modification
 
-      Contacts after = app.contact().all();
+      Contacts after = app.db().contacts();     // Contacts after = app.contact().all();  -- List from interface
 
       assertThat(after, equalTo(before.without(modifiedContact).withAdded(data)));      // compare two sets: before and after modification
       assertThat(after, equalTo(before.withModified(modifiedContact.getId(), data)));   // with extra method
    }
 
    // *********************************** OTHER WAY FOR THE SAME THING *************************************************
+   // attention: because of changes for equals-Method the tests for comparison will fail!
 
    @Test(enabled = false)
    public void testContactModificationWithLists() {

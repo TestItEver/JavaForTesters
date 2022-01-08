@@ -3,6 +3,7 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 
 import javax.persistence.*;
 import java.io.File;
@@ -53,10 +54,10 @@ public class ContactData {
    private String email3;
 
    @Expose
-   // @Column(name = "bday")
-   // @Type(type = "byte")
-   @Transient
-   private String bday;
+   @Column(name = "bday")
+   @Type(type = "byte")
+   // @Transient
+   private Byte bday;
 
    @Expose
    @Column(name = "bmonth")
@@ -136,7 +137,7 @@ public class ContactData {
    }
 
    public ContactData withBday(String bday) {
-      this.bday = bday;
+      this.bday = Byte.parseByte(bday);
       return this;
    }
 
@@ -215,7 +216,7 @@ public class ContactData {
    }
 
    public String getBday() {
-      return (bday);
+      return Byte.toString(bday);
    }
 
    public String getBmonth() {
@@ -249,6 +250,9 @@ public class ContactData {
               "firstname='" + firstname + '\'' +
               ", lastname='" + lastname + '\'' +
               ", mobile='" + mobilePhone + '\'' +
+              ", bday='" + bday + '\'' +
+              ", bmonth='" + bmonth + '\'' +
+              ", byear='" + byear + '\'' +
               '}';
    }
 
@@ -261,7 +265,11 @@ public class ContactData {
 
       if (id != that.id) return false;
       if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-      return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+      if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+      if (company != null ? !company.equals(that.company) : that.company != null) return false;
+      if (bday != null ? !bday.equals(that.bday) : that.bday != null) return false;
+      if (bmonth != null ? !bmonth.equals(that.bmonth) : that.bmonth != null) return false;
+      return byear != null ? byear.equals(that.byear) : that.byear == null;
    }
 
    @Override
@@ -269,6 +277,10 @@ public class ContactData {
       int result = id;
       result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
       result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+      result = 31 * result + (company != null ? company.hashCode() : 0);
+      result = 31 * result + (bday != null ? bday.hashCode() : 0);
+      result = 31 * result + (bmonth != null ? bmonth.hashCode() : 0);
+      result = 31 * result + (byear != null ? byear.hashCode() : 0);
       return result;
    }
 }

@@ -7,10 +7,11 @@ import ru.stqa.pft.addressbook.model.MySet;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+// alternative realization with use of MySet
 
 public class MySetTests extends TestBase {
 
-  @Test(enabled = true)
+  @Test(enabled = false)
   public void testGroupCreation() throws Exception {
     app.goTo().groupPage(); // precondition
 

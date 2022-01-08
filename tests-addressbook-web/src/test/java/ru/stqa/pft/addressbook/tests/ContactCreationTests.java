@@ -62,13 +62,13 @@ public class ContactCreationTests extends TestBase{
   public void testContactCreationDataProvider(ContactData contact) throws Exception {
     app.goTo().homePage(); // precondition
 
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();      // Contacts before = app.contact().all(); -- List from interface (old)
     File photo = new File ("src/test/resources/eule.png");
     contact.withPhoto(photo);
     app.contact().create(contact);    // add new contact on the page
     assertThat(app.contact().count(), equalTo(before.size() + 1));
 
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();    // Contacts after = app.contact().all();   -- List from interface (old)
     assertThat(after, equalTo
             (before.withAdded(contact.withId
                     (after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt()))));
@@ -79,7 +79,7 @@ public class ContactCreationTests extends TestBase{
   public void testContactCreation() throws Exception {
     app.goTo().homePage(); // precondition
 
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();     // Contacts before = app.contact().all();
     File photo = new File ("src/test/resources/eule.png");
     ContactData newContact = new ContactData()
             .withFirstname("Alex")
@@ -95,7 +95,7 @@ public class ContactCreationTests extends TestBase{
     app.contact().create(newContact);    // add new contact on the page
     assertThat(app.contact().count(), equalTo(before.size() + 1));
 
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();    // Contacts after = app.contact().all();
     assertThat(after, equalTo
             (before.withAdded(newContact.withId
                     (after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt()))));
@@ -111,6 +111,7 @@ public class ContactCreationTests extends TestBase{
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
+  // attention: because of changes for equals-Method the tests for comparison will fail!
 
   @Test(enabled = false)
   public void testContactCreationWithLists() throws Exception {

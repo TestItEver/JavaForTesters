@@ -94,6 +94,7 @@ public class GroupCreationTests extends TestBase {
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
+  // attention: because of changes for equals-Method the tests for comparison will fail!
 
   @Test(enabled = false)
   public void testGroupCreationWithLists() throws Exception {

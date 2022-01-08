@@ -1,4 +1,4 @@
-<suite name="Suite1" verbose="1" >
+<suite name="Suite3" verbose="1" >
     <test name="MainTable">
         <classes>
             <class name="ru.stqa.pft.addressbook.tests.ContactPhoneTests"/>
