@@ -177,6 +177,11 @@ public class ContactData {
       return this;
    }
 
+   public ContactData removeGroup(GroupData group) {
+      groups.remove(group);
+      return this;
+   }
+
    public int getId() {
       return id;
    }
@@ -258,6 +263,7 @@ public class ContactData {
               ", bday='" + bday + '\'' +
               ", bmonth='" + bmonth + '\'' +
               ", byear='" + byear + '\'' +
+              ", groups='" + groups + '\'' +
               '}';
    }
 
@@ -271,10 +277,10 @@ public class ContactData {
       if (id != that.id) return false;
       if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
       if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-      if (company != null ? !company.equals(that.company) : that.company != null) return false;
       if (bday != null ? !bday.equals(that.bday) : that.bday != null) return false;
       if (bmonth != null ? !bmonth.equals(that.bmonth) : that.bmonth != null) return false;
-      return byear != null ? byear.equals(that.byear) : that.byear == null;
+      if (byear != null ? !byear.equals(that.byear) : that.byear != null) return false;
+      return groups != null ? groups.equals(that.groups) : that.groups == null;
    }
 
    @Override
@@ -282,10 +288,10 @@ public class ContactData {
       int result = id;
       result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
       result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-      result = 31 * result + (company != null ? company.hashCode() : 0);
       result = 31 * result + (bday != null ? bday.hashCode() : 0);
       result = 31 * result + (bmonth != null ? bmonth.hashCode() : 0);
       result = 31 * result + (byear != null ? byear.hashCode() : 0);
+      result = 31 * result + (groups != null ? groups.hashCode() : 0);
       return result;
    }
 

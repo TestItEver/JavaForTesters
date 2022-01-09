@@ -41,29 +41,31 @@ public class DeleteContactFromGroupTests extends TestBase{
    @Test
    public void testDeleteContactFromGroup() {
 
-      Contacts before = app.db().contacts();
+      Contacts allContacts = app.db().contacts();
       Groups allGroups = app.db().groups();
       ContactData selectedContact = null;
       GroupData myGroup = null;
 
-      for (ContactData contact : before) {
+      for (ContactData contact : allContacts) {           // find a contact with at least one group
          if (contact.getGroups().size() != 0) {
             selectedContact = contact;
             myGroup = contact.getGroups().iterator().next();
          }
       }
 
-      if (selectedContact == null) {
-         selectedContact = before.iterator().next();
+      if (selectedContact == null) {                     // if there is no contact with a group, add a contact to a group
+         selectedContact = allContacts.iterator().next();
          myGroup = allGroups.iterator().next();
          app.contact().addContactToGroup(selectedContact, myGroup);
+         selectedContact.inGroup(myGroup);
       }
 
+      Contacts before = app.db().contacts();
       app.contact().selectViewForContactsInGroup(Integer.toString(myGroup.getId()));
       app.contact().deleteContactFromGroup(selectedContact, myGroup.getName());
+
       before.remove(selectedContact);
-      selectedContact.getGroups().remove(myGroup);
-      before.add(selectedContact);
+      before.add(selectedContact.removeGroup(myGroup));
 
       Contacts after = app.db().contacts();
       assertThat(after, equalTo(before));
