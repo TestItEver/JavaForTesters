@@ -50,6 +50,7 @@ public class DeleteContactFromGroupTests extends TestBase{
          if (contact.getGroups().size() != 0) {
             selectedContact = contact;
             myGroup = contact.getGroups().iterator().next();
+            break;
          }
       }
 
