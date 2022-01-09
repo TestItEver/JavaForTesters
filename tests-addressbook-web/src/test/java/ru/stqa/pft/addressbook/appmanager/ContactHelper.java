@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +129,41 @@ public class ContactHelper extends HelperBase {
       return isElementPresent(By.name("selected[]"));
    }
 
+   public ContactData infoFromEditForm(ContactData contact) {
+      initContactModificationById(contact.getId());
+
+      String firstname = wd.findElement(By.name(("firstname"))).getAttribute("value");
+      String lastname = wd.findElement(By.name(("lastname"))).getAttribute("value");
+      String address = wd.findElement(By.name(("address"))).getAttribute("value");
+      String homePhone = wd.findElement(By.name(("home"))).getAttribute("value");
+      String mobilePhone = wd.findElement(By.name(("mobile"))).getAttribute("value");
+      String workPhone = wd.findElement(By.name(("work"))).getAttribute("value");
+      String email = wd.findElement(By.name(("email"))).getAttribute("value");
+      String email2 = wd.findElement(By.name(("email2"))).getAttribute("value");
+      String email3 = wd.findElement(By.name(("email3"))).getAttribute("value");
+
+      contact.withFirstname(firstname).withLastname(lastname).withAddress(address)
+              .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone)
+              .withEmail(email).withEmail2(email2).withEmail3(email3);
+
+      return contact;
+   }
+
+   public void addContactToGroup(ContactData contact, GroupData group) {
+      selectContactById(contact.getId());
+      String groupId = Integer.toString(group.getId());
+      new Select(wd.findElement(By.name("to_group"))).selectByValue(groupId);    // selectByVisibleText(groupName);
+      click(By.name("add"));
+      click(By.linkText("group page \"" + group.getName() + "\""));
+      // wd.findElement(By.linkText("group page \"" + group.getName() + "\"")).click();
+   }
+
+   public void selectAllGroups() {
+      wd.findElement(By.name("group")).click();
+      new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+   }
+
+   //********************************************SETS and LISTS********************************************************
    public Contacts all() {
       if (contactCache != null) {
          return new Contacts(contactCache);
@@ -180,25 +216,5 @@ public class ContactHelper extends HelperBase {
          contacts.add(contact);
       }
       return contacts;
-   }
-
-   public ContactData infoFromEditForm(ContactData contact) {
-      initContactModificationById(contact.getId());
-
-      String firstname = wd.findElement(By.name(("firstname"))).getAttribute("value");
-      String lastname = wd.findElement(By.name(("lastname"))).getAttribute("value");
-      String address = wd.findElement(By.name(("address"))).getAttribute("value");
-      String homePhone = wd.findElement(By.name(("home"))).getAttribute("value");
-      String mobilePhone = wd.findElement(By.name(("mobile"))).getAttribute("value");
-      String workPhone = wd.findElement(By.name(("work"))).getAttribute("value");
-      String email = wd.findElement(By.name(("email"))).getAttribute("value");
-      String email2 = wd.findElement(By.name(("email2"))).getAttribute("value");
-      String email3 = wd.findElement(By.name(("email3"))).getAttribute("value");
-
-      contact.withFirstname(firstname).withLastname(lastname).withAddress(address)
-              .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone)
-              .withEmail(email).withEmail2(email2).withEmail3(email3);
-
-      return contact;
    }
 }
