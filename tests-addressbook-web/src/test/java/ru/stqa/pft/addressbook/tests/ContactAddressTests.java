@@ -22,7 +22,6 @@ public class ContactAddressTests extends TestBase {
                  .withBmonth("September")
                  .withByear("1990")
                  .withEmail("alex@test.com"));
-                 //.withGroup("Test1"));
       }
    }
 

@@ -149,18 +149,27 @@ public class ContactHelper extends HelperBase {
       return contact;
    }
 
+   public void selectViewForContactsInGroup(String value) {
+      click(By.name("group"));
+      if (value.equals("0")) {
+         new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+      } else {
+         new Select(wd.findElement(By.name("group"))).selectByValue(value);
+      }
+   }
+
    public void addContactToGroup(ContactData contact, GroupData group) {
       selectContactById(contact.getId());
       String groupId = Integer.toString(group.getId());
-      new Select(wd.findElement(By.name("to_group"))).selectByValue(groupId);    // selectByVisibleText(groupName);
+      new Select(wd.findElement(By.name("to_group"))).selectByValue(groupId);
       click(By.name("add"));
       click(By.linkText("group page \"" + group.getName() + "\""));
-      // wd.findElement(By.linkText("group page \"" + group.getName() + "\"")).click();
    }
 
-   public void selectAllGroups() {
-      wd.findElement(By.name("group")).click();
-      new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+   public void deleteContactFromGroup(ContactData contact, String groupName) {
+      selectContactById(contact.getId());
+      click(By.name("remove"));
+      click(By.linkText("group page \"" + groupName + "\""));
    }
 
    //********************************************SETS and LISTS********************************************************
@@ -217,4 +226,5 @@ public class ContactHelper extends HelperBase {
       }
       return contacts;
    }
+
 }

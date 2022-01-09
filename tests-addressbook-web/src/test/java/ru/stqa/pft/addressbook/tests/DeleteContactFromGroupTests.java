@@ -9,15 +9,14 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.File;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class AddContactToGroupTests extends TestBase{
+public class DeleteContactFromGroupTests extends TestBase{
 
    @BeforeMethod
    public void ensurePreconditions() {
 
-      app.goTo().homePage();
       if (app.db().contacts().size() == 0) {
          File photo = new File ("src/test/resources/eule.png");
          app.contact().create(new ContactData()
@@ -31,36 +30,40 @@ public class AddContactToGroupTests extends TestBase{
                  .withEmail("alex@test.com")
                  .withPhoto(photo));
       }
+      if (app.db().groups().size() == 0) {
+         app.goTo().groupPage();
+         app.group().create(new GroupData().withName("New Group"));
+      }
+
+      app.goTo().homePage();
    }
 
-   // select a contact randomly and add it to a group
-   // if the selected contact is included already in all groups, then create a group and add contact to this group
    @Test
-   public void testAddContactToGroup () {
-
-      app.contact().selectViewForContactsInGroup("0");
+   public void testDeleteContactFromGroup() {
 
       Contacts before = app.db().contacts();
       Groups allGroups = app.db().groups();
-
-      ContactData selectedContact = before.iterator().next();
-      if (selectedContact.getGroups().size() == allGroups.size() || allGroups.size() == 0) {
-         app.goTo().groupPage();
-         app.group().create(new GroupData().withName("New Group"));
-         app.goTo().homePage();
-         allGroups = app.db().groups();
-      }
-
+      ContactData selectedContact = null;
       GroupData myGroup = null;
-      for (GroupData group : allGroups) {
-         if (!selectedContact.getGroups().contains(group)) {
-            myGroup = group;
-            break;
+
+      for (ContactData contact : before) {
+         if (contact.getGroups().size() != 0) {
+            selectedContact = contact;
+            myGroup = contact.getGroups().iterator().next();
          }
       }
 
-      app.contact().addContactToGroup(selectedContact, myGroup);
-      before.add(selectedContact.inGroup(myGroup));
+      if (selectedContact == null) {
+         selectedContact = before.iterator().next();
+         myGroup = allGroups.iterator().next();
+         app.contact().addContactToGroup(selectedContact, myGroup);
+      }
+
+      app.contact().selectViewForContactsInGroup(Integer.toString(myGroup.getId()));
+      app.contact().deleteContactFromGroup(selectedContact, myGroup.getName());
+      before.remove(selectedContact);
+      selectedContact.getGroups().remove(myGroup);
+      before.add(selectedContact);
 
       Contacts after = app.db().contacts();
       assertThat(after, equalTo(before));

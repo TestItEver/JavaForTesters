@@ -2,10 +2,7 @@ package ru.stqa.pft.addressbook.tests;
 
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
-import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.json.TypeToken;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,13 +15,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class ContactCreationTests extends TestBase{
@@ -67,17 +63,18 @@ public class ContactCreationTests extends TestBase{
 
   @BeforeMethod
   public void ensurePreconditions() {
-    app.goTo().homePage();
+
     if (app.db().groups().size() == 0){
-      app.group().create(new GroupData().withName("TestCreationX"));
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("TestCreation"));
     }
+    app.goTo().homePage();
   }
 
   @Test(dataProvider = "validContactsJSON")
   public void testContactCreationDataProvider(ContactData newContact) throws Exception {
 
     Contacts before = app.db().contacts();        // Contacts before = app.contact().all(); -- List from interface (old)
-
     Groups groups = app.db().groups();
     File photo = new File ("src/test/resources/eule.png");
     newContact.withPhoto(photo).inGroup(groups.iterator().next());
@@ -109,7 +106,7 @@ public class ContactCreationTests extends TestBase{
             .withBmonth("September")
             .withByear("1990")
             .withEmail("alex@test.com");
-            //.withGroup("Test1");
+
     app.contact().create(newContact);    // add new contact on the page
     assertThat(app.contact().count(), equalTo(before.size() + 1));
 
