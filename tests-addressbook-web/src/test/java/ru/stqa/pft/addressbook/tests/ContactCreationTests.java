@@ -6,11 +6,13 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.json.TypeToken;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,6 +28,8 @@ import static org.hamcrest.MatcherAssert.*;
 
 
 public class ContactCreationTests extends TestBase{
+
+  //**********************************************DATA PROVIDER*********************************************************
 
   @DataProvider
   public Iterator<Object[]> validContactsXML() throws IOException {
@@ -58,20 +62,34 @@ public class ContactCreationTests extends TestBase{
     return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
-  @Test(dataProvider = "validContactsXML")
-  public void testContactCreationDataProvider(ContactData contact) throws Exception {
-    app.goTo().homePage(); // precondition
+//************************************************END DATA PROVIDER******************************************************
 
-    Contacts before = app.db().contacts();      // Contacts before = app.contact().all(); -- List from interface (old)
+
+  @BeforeMethod
+  public void ensurePreconditions() {
+    app.goTo().homePage();
+    if (app.db().groups().size() == 0){
+      app.group().create(new GroupData().withName("TestCreationX"));
+    }
+  }
+
+  @Test(dataProvider = "validContactsJSON")
+  public void testContactCreationDataProvider(ContactData newContact) throws Exception {
+
+    Contacts before = app.db().contacts();        // Contacts before = app.contact().all(); -- List from interface (old)
+
+    Groups groups = app.db().groups();
     File photo = new File ("src/test/resources/eule.png");
-    contact.withPhoto(photo);
-    app.contact().create(contact);    // add new contact on the page
+    newContact.withPhoto(photo).inGroup(groups.iterator().next());
+
+    app.contact().create(newContact);    // add new contact on the page
     assertThat(app.contact().count(), equalTo(before.size() + 1));
 
     Contacts after = app.db().contacts();    // Contacts after = app.contact().all();   -- List from interface (old)
     assertThat(after, equalTo
-            (before.withAdded(contact.withId
+            (before.withAdded(newContact.withId
                     (after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt()))));
+    verifyContactListInUI();
   }
 
   // Without DataProvider
@@ -90,8 +108,8 @@ public class ContactCreationTests extends TestBase{
             .withBday("10")
             .withBmonth("September")
             .withByear("1990")
-            .withEmail("alex@test.com")
-            .withGroup("Test1");
+            .withEmail("alex@test.com");
+            //.withGroup("Test1");
     app.contact().create(newContact);    // add new contact on the page
     assertThat(app.contact().count(), equalTo(before.size() + 1));
 
@@ -110,6 +128,9 @@ public class ContactCreationTests extends TestBase{
     System.out.println(photo.exists());
   }
 
+}
+
+  /*
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************
   // attention: because of changes for equals-Method the tests for comparison will fail!
 
@@ -126,8 +147,8 @@ public class ContactCreationTests extends TestBase{
             .withBday("10")
             .withBmonth("September")
             .withByear("1990")
-            .withEmail("alex@test.com")
-            .withGroup("Test1");
+            .withEmail("alex@test.com");
+            //.withGroup("Test1");
     app.contact().create(data);
     Assert.assertEquals(app.contact().count(), before.size() + 1); // compare size of two lists: before and after creation
 
@@ -142,5 +163,6 @@ public class ContactCreationTests extends TestBase{
     after.sort(byId);
     Assert.assertEquals(after, before);
   }
+   */
 
-}
+

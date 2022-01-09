@@ -26,8 +26,8 @@ public class ContactModificationTests extends TestBase{
                  .withBday("10")
                  .withBmonth("September")
                  .withByear("1990")
-                 .withEmail("alex@test.com")
-                 .withGroup("Test1"));
+                 .withEmail("alex@test.com"));
+                 //.withGroup("Test1"));
       }
    }
 
@@ -55,6 +55,7 @@ public class ContactModificationTests extends TestBase{
 
       assertThat(after, equalTo(before.without(modifiedContact).withAdded(data)));      // compare two sets: before and after modification
       assertThat(after, equalTo(before.withModified(modifiedContact.getId(), data)));   // with extra method
+      verifyContactListInUI();
    }
 
    // *********************************** OTHER WAY FOR THE SAME THING *************************************************

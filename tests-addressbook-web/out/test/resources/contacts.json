@@ -5,7 +5,9 @@
     "company": "Microsoft",
     "mobilePhone": "0123456789",
     "email": "test-email1@gmail.com",
-    "group": "test 1"
+    "bday": 10,
+    "bmonth": "September",
+    "byear": "1990"
   },
   {
     "firstname": "test-firstname2",
@@ -13,7 +15,9 @@
     "company": "Microsoft",
     "mobilePhone": "0123456789",
     "email": "test-email2@gmail.com",
-    "group": "test 1"
+    "bday": 10,
+    "bmonth": "September",
+    "byear": "1990"
   },
   {
     "firstname": "test-firstname3",
@@ -21,6 +25,8 @@
     "company": "Microsoft",
     "mobilePhone": "0123456789",
     "email": "test-email3@gmail.com",
-    "group": "test 1"
+    "bday": 10,
+    "bmonth": "September",
+    "byear": "1990"
   }
 ]

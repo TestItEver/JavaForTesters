@@ -24,8 +24,8 @@ public class ContactPhoneTests extends TestBase {
                  .withBday("10")
                  .withBmonth("September")
                  .withByear("1990")
-                 .withEmail("alex@test.com")
-                 .withGroup("Test1"));
+                 .withEmail("alex@test.com"));
+                 //.withGroup("Test1"));
       }
    }
 

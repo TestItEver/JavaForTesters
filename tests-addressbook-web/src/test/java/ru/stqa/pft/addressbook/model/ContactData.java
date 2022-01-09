@@ -2,11 +2,14 @@ package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import net.bytebuddy.build.Plugin;
 import org.hibernate.annotations.Type;
 import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -71,9 +74,12 @@ public class ContactData {
    @Type(type = "text")
    private String photo;
 
-   @Expose
-   @Transient
-   private String group;
+   //@Expose
+   //private String group;
+   @ManyToMany(fetch = FetchType.EAGER)     // FetchType.EAGER = all information about contact should be load at once
+   @JoinTable(name = "address_in_groups",   // Description of the relationship between contacts and groups
+           joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+   private Set<GroupData> groups = new HashSet<GroupData>();
 
    @Transient
    private String allEmails;
@@ -156,8 +162,8 @@ public class ContactData {
       return this;
    }
 
-   public ContactData withGroup(String group) {
-      this.group = group;
+   public ContactData inGroup(GroupData group) {
+      groups.add(group);
       return this;
    }
 
@@ -231,8 +237,8 @@ public class ContactData {
       return new File(photo);
    }
 
-   public String getGroup() {
-      return group;
+   public Groups getGroups() {
+      return new Groups(groups);
    }
 
    public String getAllEmails() {
@@ -242,7 +248,6 @@ public class ContactData {
    public String getAllPhones() {
       return allPhones;
    }
-
 
    @Override
    public String toString() {
@@ -283,4 +288,5 @@ public class ContactData {
       result = 31 * result + (byear != null ? byear.hashCode() : 0);
       return result;
    }
+
 }

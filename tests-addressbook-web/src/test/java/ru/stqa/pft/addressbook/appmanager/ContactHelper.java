@@ -48,14 +48,11 @@ public class ContactHelper extends HelperBase {
 
       if (creation) {
          attach(By.name("photo"), contactData.getPhoto());
-         try {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-         } catch (NoSuchElementException e) {
-            //todo
-            System.out.println("TEST-LOG: group " + contactData.getGroup() + " is not available!");
+         if (contactData.getGroups().size() > 0) {
+            Assert.assertTrue(contactData.getGroups().size() == 1);
+            new Select(wd.findElement(By.name("new_group")))
+                    .selectByVisibleText(contactData.getGroups().iterator().next().getName());
          }
-      } else {
-         Assert.assertFalse(isElementPresent(By.name("new_group")));
       }
    }
 

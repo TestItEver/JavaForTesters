@@ -62,8 +62,7 @@ public class ContactDataGenerator {
                  .withMobilePhone("0123456789")
                  .withBday("10")
                  .withBmonth("September")
-                 .withByear("1990")
-                 .withGroup("test 1"));
+                 .withByear("1990"));
       }
       return contacts;
    }

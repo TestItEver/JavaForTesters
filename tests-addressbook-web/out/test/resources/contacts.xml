@@ -8,7 +8,7 @@
     <bday>10</bday>
     <bmonth>September</bmonth>
     <byear>1990</byear>
-    <group>test 1</group>
+    <groups/>
   </ru.stqa.pft.addressbook.model.ContactData>
   <ru.stqa.pft.addressbook.model.ContactData>
     <firstname>test-firstname2</firstname>
@@ -19,7 +19,7 @@
     <bday>10</bday>
     <bmonth>September</bmonth>
     <byear>1990</byear>
-    <group>test 1</group>
+    <groups/>
   </ru.stqa.pft.addressbook.model.ContactData>
   <ru.stqa.pft.addressbook.model.ContactData>
     <firstname>test-firstname3</firstname>
@@ -30,6 +30,6 @@
     <bday>10</bday>
     <bmonth>September</bmonth>
     <byear>1990</byear>
-    <group>test 1</group>
+    <groups/>
   </ru.stqa.pft.addressbook.model.ContactData>
 </list>

@@ -90,7 +90,7 @@ public class GroupCreationTests extends TestBase {
     ++ then maximum of the Integers in stream will be calculated and returned as Integer ++
     int max = after.stream().mapToInt((objectGroupData) -> objectGroupData.getId()).max().getAsInt();
      */
-
+    verifyGroupListInUI();
   }
 
   // *********************************** OTHER WAY FOR THE SAME THING *************************************************

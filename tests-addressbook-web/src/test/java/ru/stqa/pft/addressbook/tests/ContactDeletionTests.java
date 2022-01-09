@@ -26,8 +26,8 @@ public class ContactDeletionTests extends TestBase{
                  .withBday("10")
                  .withBmonth("September")
                  .withByear("1990")
-                 .withEmail("alex@test.com")
-                 .withGroup("Test1"));
+                 .withEmail("alex@test.com"));
+                 //.withGroup("Test1"));
       }
    }
 
@@ -43,6 +43,7 @@ public class ContactDeletionTests extends TestBase{
 
       Contacts after = app.db().contacts();        // Contacts after = app.contact().all();   -- List from interface
       assertThat(after, equalTo(before.without(deletedContact)));
+      verifyContactListInUI();
    }
 
    // *********************************** OTHER WAY FOR THE SAME THING *************************************************
