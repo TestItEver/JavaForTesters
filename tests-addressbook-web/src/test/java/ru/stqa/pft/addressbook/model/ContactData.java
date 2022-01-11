@@ -2,9 +2,7 @@ package ru.stqa.pft.addressbook.model;
 
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
-import net.bytebuddy.build.Plugin;
 import org.hibernate.annotations.Type;
-import org.hibernate.type.descriptor.java.UUIDTypeDescriptor;
 
 import javax.persistence.*;
 import java.io.File;

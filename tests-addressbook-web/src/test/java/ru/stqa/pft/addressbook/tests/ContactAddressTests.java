@@ -1,11 +1,14 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+
 
 public class ContactAddressTests extends TestBase {
 
