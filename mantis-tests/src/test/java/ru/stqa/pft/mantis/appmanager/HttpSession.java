@@ -12,7 +12,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.lang.Object;
 import java.util.ArrayList;
 import java.util.List;
 

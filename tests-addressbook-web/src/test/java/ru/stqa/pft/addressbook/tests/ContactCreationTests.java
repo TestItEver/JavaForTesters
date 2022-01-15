@@ -116,7 +116,7 @@ public class ContactCreationTests extends TestBase{
                     (after.stream().mapToInt((objectContactData) -> objectContactData.getId()).max().getAsInt()))));
   }
 
-  @Test(enabled = false)
+  @Test(enabled = true)
   public void testCurrentDir() {
     File currentDir = new File(".");
     System.out.println(currentDir.getAbsolutePath());
