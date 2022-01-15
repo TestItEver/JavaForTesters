@@ -1,6 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;

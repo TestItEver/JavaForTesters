@@ -38,11 +38,10 @@ public class AddContactToGroupTests extends TestBase{
    @Test
    public void testAddContactToGroup () {
 
-      app.contact().selectViewForContactsInGroup("0");
+      app.contact().selectViewForContactsInGroup("0");   // select view all groups
 
       Contacts before = app.db().contacts();
       Groups allGroups = app.db().groups();
-
       ContactData selectedContact = before.iterator().next();
       if (selectedContact.getGroups().size() == allGroups.size()) {
          app.goTo().groupPage();
@@ -50,7 +49,6 @@ public class AddContactToGroupTests extends TestBase{
          app.goTo().homePage();
          allGroups = app.db().groups();
       }
-
       GroupData myGroup = null;
       for (GroupData group : allGroups) {
          if (!selectedContact.getGroups().contains(group)) {
@@ -60,10 +58,8 @@ public class AddContactToGroupTests extends TestBase{
       }
 
       app.contact().addContactToGroup(selectedContact, myGroup);
-
       before.remove(selectedContact);
       before.add(selectedContact.inGroup(myGroup));
-
       Contacts after = app.db().contacts();
       assertThat(after, equalTo(before));
 
