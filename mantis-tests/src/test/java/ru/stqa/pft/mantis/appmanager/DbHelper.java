@@ -24,7 +24,6 @@ public class DbHelper {
       sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
    }
 
-
    public Users users() {
       Session session = sessionFactory.openSession();
       session.beginTransaction();

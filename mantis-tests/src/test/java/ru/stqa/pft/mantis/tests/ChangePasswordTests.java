@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
 import ru.stqa.pft.mantis.model.UserData;
+import ru.stqa.pft.mantis.model.Users;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -20,10 +21,18 @@ public class ChangePasswordTests extends TestBase{
       app.mail().start();
    }
 
+   // precondition: at least one user <> administrator is available in the database!
    @Test
    public void testChangeUserPassword() throws MessagingException, IOException {
-      UserData user = app.db().users().iterator().next();               // choose a user randomly from the database
-      String newPassword = "newPassword";                               // set new password string
+      Users users = app.db().users();
+
+      UserData user = null;
+      for (UserData u : users) {                                           // choose a user randomly from the database
+         if (!u.getUsername().equals("administrator")) {                   // if user == administrator, then choose another user
+            user = u;
+         }
+      }
+      String newPassword = user.getPassword() + System.currentTimeMillis();          // set new password string
 
       app.action().login(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));     // log in as administrator
       app.action().resetPassword(user.getUsername());
