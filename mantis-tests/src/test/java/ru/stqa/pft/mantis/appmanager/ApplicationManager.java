@@ -22,6 +22,7 @@ public class ApplicationManager {
    String browserType;
    private RegistrationHelper registrationHelper;
    private FtpHelper ftpHelper;
+   private MailHelper mailHelper;
 
    public ApplicationManager(String browser) {
       this.browserType = browser;
@@ -76,5 +77,12 @@ public class ApplicationManager {
          wd.get(properties.getProperty("web.baseURL"));      // "http://localhost/addressbook/";
       }
       return wd;
+   }
+
+   public MailHelper mail() {
+      if (mailHelper == null) {
+         mailHelper = new MailHelper(this);
+      }
+      return mailHelper;
    }
 }
