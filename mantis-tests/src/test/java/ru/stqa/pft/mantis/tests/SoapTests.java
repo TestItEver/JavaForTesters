@@ -1,6 +1,5 @@
 package ru.stqa.pft.mantis.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.mantis.model.Issue;
 import ru.stqa.pft.mantis.model.Project;
@@ -31,6 +30,14 @@ public class SoapTests extends TestBase {
       Issue createdIssue = app.soap().addIssue(issue);
 
       assertEquals(issue.getSummary(), createdIssue.getSummary());
+   }
 
+   @Test
+   public void testIssueState() throws MalformedURLException, ServiceException, RemoteException {
+      // choose one project randomly, get the first issue of the project and check the issue state
+      Project project = app.soap().getProjects().iterator().next();
+      Issue issue = app.soap().getOneIssue(project);
+      skipIfNotFixed(issue.getId());
+      // skipIfNotFixed(2);
    }
 }

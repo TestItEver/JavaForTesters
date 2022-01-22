@@ -49,4 +49,23 @@ public class SoapHelper {
               .withProject(new Project().withId(createdIssueData.getProject().getId().intValue())
                                         .withName(createdIssueData.getProject().getName()));
    }
+
+   public Issue getOneIssue(Project project) throws MalformedURLException, ServiceException, RemoteException {
+      MantisConnectPortType mc = getMantisConnect();
+      IssueData[] issueData = mc.mc_project_get_issues(app.getProperty("web.adminLogin"),
+              app.getProperty("web.adminPassword"), BigInteger.valueOf(project.getId()),
+              BigInteger.valueOf(1), BigInteger.valueOf(1));
+      return new Issue().withId(issueData[0].getId().intValue())
+              .withSummary(issueData[0].getSummary())
+              .withDescription(issueData[0].getDescription())
+              .withProject(new Project().withId(issueData[0].getProject().getId().intValue())
+                      .withName(issueData[0].getProject().getName()));
+   }
+
+   public String getIssueStatus(int issueId) throws MalformedURLException, ServiceException, RemoteException {
+      MantisConnectPortType mc = getMantisConnect();
+      IssueData myIssue = mc.mc_issue_get(app.getProperty("web.adminLogin"),
+              app.getProperty("web.adminPassword"), BigInteger.valueOf(issueId));
+      return myIssue.getStatus().getName();
+   }
 }
