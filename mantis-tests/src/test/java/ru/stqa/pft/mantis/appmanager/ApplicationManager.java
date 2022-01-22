@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.MatchResult;
 
 public class ApplicationManager {
 
@@ -23,8 +22,9 @@ public class ApplicationManager {
    private RegistrationHelper registrationHelper;
    private FtpHelper ftpHelper;
    private MailHelper mailHelper;
-   private ActionHelper ActionHelper;
-   private DbHelper DbHelper;
+   private ActionHelper actionHelper;
+   private DbHelper dbHelper;
+   private SoapHelper soapHelper;
 
    public ApplicationManager(String browser) {
       this.browserType = browser;
@@ -89,16 +89,23 @@ public class ApplicationManager {
    }
 
    public ActionHelper action() {
-      if (ActionHelper == null) {
-         ActionHelper = new ActionHelper(this);
+      if (actionHelper == null) {
+         actionHelper = new ActionHelper(this);
       }
-      return ActionHelper;
+      return actionHelper;
    }
 
    public DbHelper db() {
-      if (DbHelper == null) {
-         DbHelper = new DbHelper(this);
+      if (dbHelper == null) {
+         dbHelper = new DbHelper(this);
       }
-      return DbHelper;
+      return dbHelper;
+   }
+
+   public SoapHelper soap() {
+      if (soapHelper == null) {
+         soapHelper = new SoapHelper(this);
+      }
+      return soapHelper;
    }
 }

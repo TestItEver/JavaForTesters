@@ -30,6 +30,7 @@ public class ChangePasswordTests extends TestBase{
       for (UserData u : users) {                                           // choose a user randomly from the database
          if (!u.getUsername().equals("administrator")) {                   // if user == administrator, then choose another user
             user = u;
+            break;
          }
       }
       String newPassword = user.getPassword() + System.currentTimeMillis();          // set new password string
