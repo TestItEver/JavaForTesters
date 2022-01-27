@@ -28,6 +28,15 @@ public class RestHelper {
       JsonElement issues = parsed.getAsJsonObject().get("issues");
       return new Gson().fromJson(issues, new TypeToken<List<BugifyIssue>>(){}.getType());
    }
+/*
+   public BugifyIssue getIssueById(int id) throws IOException {
+      String json = getExecutor().execute(Request.Get("https://bugify.stqa.ru/api/issues/" + id +".json"))
+              .returnContent().asString();
+      JsonElement parsed = new JsonParser().parse(json);
+      JsonElement issues = parsed.getAsJsonObject().get("issues");
+      return new Gson().fromJson(issues, new TypeToken<BugifyIssue>(){}.getType());
+   }
+*/
 
    public Executor getExecutor() {
       return Executor.newInstance().auth("288f44776e7bec4bf44fdfeb1e646490", "");
