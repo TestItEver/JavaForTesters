@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.message.BasicNameValuePair;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -25,6 +24,8 @@ public class RestTests {
       Set<Issue> newIssues = getIssues();
       oldIssues.add(newIssue.withId(issueId));
       assertEquals(newIssues, oldIssues);
+      System.out.println(newIssue.getId());
+      updateIssueState(newIssue.getId());
    }
 
    private Set<Issue> getIssues() throws IOException {
@@ -46,5 +47,13 @@ public class RestTests {
               .returnContent().asString();
       JsonElement parsed = new JsonParser().parse(json);
       return parsed.getAsJsonObject().get("issue_id").getAsInt();
+   }
+
+   private void updateIssueState(int id) throws IOException {
+      String json = getExecutor().execute(Request.Post("https://bugify.stqa.ru/api/issues/1833.json")
+                      .bodyForm(new BasicNameValuePair("method", "update"),
+                              new BasicNameValuePair("issue[state]", "2")))
+              .returnContent().asString();
+      // JsonElement parsed = new JsonParser().parse(json);
    }
 }
